@@ -8,7 +8,7 @@ const ProtectedRoute=({element})=>{
 
     if (loading) return null;
 
-    return isAuth? element : Navigate.to('/');
+    return isAuth? element :  <Navigate to="/"/>;
 }
 
 export default ProtectedRoute;

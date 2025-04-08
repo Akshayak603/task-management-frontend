@@ -2,13 +2,13 @@
 import { useState } from "react";
 import axios from 'axios';
 
-
+// Cutom API hook
 const useApi= (BaseUrl)=>{
     const [error, setError]= useState(null);
     const [loading, setLoading]= useState(false);
 
     const getToken= ()=>{
-        return localStorage.get('access_token');
+        return localStorage.getItem('access_token');
     }
 
     const apiRequest=async (method, url, data=null)=>{
@@ -32,6 +32,7 @@ const useApi= (BaseUrl)=>{
         }
         catch (error){
             setError(error || "Something went Wrong");
+            // console.log("Error", error)
             return null;
         }
         finally{

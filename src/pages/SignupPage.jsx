@@ -12,11 +12,11 @@ import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 
 const SignupPage = () => {
-    const [toggleForm, setToggleForm]= useState(false);
+  const [toggleForm, setToggleForm] = useState(false);
 
-    const handleToggle= ()=>{
-        setToggleForm((prev)=> !prev);
-    }
+  const handleToggle = () => {
+    setToggleForm((prev) => !prev);
+  };
   return (
     <Box
       sx={{
@@ -30,7 +30,7 @@ const SignupPage = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         overflow: "hidden",
-        fontFamily: "cursive"
+        fontFamily: "cursive",
       }}
     >
       <Card
@@ -50,12 +50,14 @@ const SignupPage = () => {
         <CardHeader
           title={
             <Typography variant='h5' component='div' align='center'>
-              {!toggleForm?"Login to Task Management" : "Register to Task Management"}
+              {!toggleForm
+                ? "Login to Task Management"
+                : "Register to Task Management"}
             </Typography>
           }
         />
         <CardContent sx={{ columnGap: "10px" }}>
-            {!toggleForm? <Login/> : <Register />}
+          {!toggleForm ? <Login /> : <Register />}
         </CardContent>
         <CardActions
           sx={{
@@ -63,15 +65,13 @@ const SignupPage = () => {
             flexDirection: "column",
             rowGap: "10px",
             padding: 0,
-            margin: 0
+            margin: 0,
           }}
         >
-          <Button
-            variant='text'
-            size='small'
-            onClick={handleToggle}
-          >
-            {toggleForm ? "Already have an account? Login" : "Don't have an account? Sign Up"}
+          <Button variant='text' size='small' onClick={handleToggle}>
+            {toggleForm
+              ? "Already have an account? Login"
+              : "Don't have an account? Sign Up"}
           </Button>
         </CardActions>
       </Card>

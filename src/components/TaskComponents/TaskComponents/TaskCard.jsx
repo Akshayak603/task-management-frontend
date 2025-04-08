@@ -18,14 +18,16 @@ const TaskCard = ({
   isDragOver,
   isDragging,
   onEdit,
-  onDelete
+  onDelete,
+  onDragEnd
 }) => {
   return (
     <Card
       sx={{
         maxWidth: 300,
         maxHeight: 400,
-        backgroundColor: "rgb(233, 185, 185)",
+        backgroundColor: "#2a2a2a",
+        color: "#f0f0f0",
         overflow: "auto",
         paddingX: "10px",
         cursor: "grab",
@@ -38,10 +40,15 @@ const TaskCard = ({
         "&:hover .card-actions": {
           visibility: "visible",
         },
+        ":hover": {
+          transform: "scale(1.02)",
+          boxShadow: "0 6px 16px rgba(0, 0, 0, 0.3)",
+        },
       }}
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
+      onDragEnd={onDragEnd}
       draggable
     >
       <CardHeader title={title} />
@@ -68,7 +75,8 @@ const TaskCard = ({
               transform: "scale(1.2)",
             },
           }}
-        onClick={onEdit}/>
+          onClick={onEdit}
+        />
         <DeleteForeverIcon
           sx={{
             cursor: "pointer",
@@ -76,7 +84,8 @@ const TaskCard = ({
               transform: "scale(1.2)",
             },
           }}
-        onClick={onDelete}/>
+          onClick={onDelete}
+        />
       </CardActions>
     </Card>
   );

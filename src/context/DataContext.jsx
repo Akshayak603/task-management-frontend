@@ -4,9 +4,10 @@ import { createContext, useState } from "react";
 export const DataContext = createContext();
 
 const DataProvider= ({children})=>{
-    const [data, setData] = useState([]);
+    const [refreshPoint, setRefreshPoint] = useState(false);
+    const [loading, setLoading]= useState(false);
 
-    return <DataContext.Provider value={{data, setData}}>
+    return <DataContext.Provider value={{refreshPoint, setRefreshPoint, loading, setLoading}}>
         {children}
     </DataContext.Provider>
 }

@@ -4,28 +4,36 @@
 import { createContext, use, useEffect, useState } from "react";
 import useApi from "../api/useApi";
 import { BASE_URL } from "../utils/constant";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  // Auth states
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [initialLogin, setInitialLogin] = useState(false);
-  const { get } = useApi(BASE_URL);
-
+  
+  // useEffect for checking token expiry
   useEffect(() => {
     const storedToken = localStorage.getItem("access_token");
     if (storedToken) {
-      get("auth/me")
+      axios
+        .get(`${BASE_URL}auth/me`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        })
         .then((response) => {
           if (response) {
             setIsAuth(true);
-            setUser(response);
+            setUser(response.data);
           }
         })
         .catch((error) => {
-        console.log(error)
+          console.log(error);
         })
         .finally(() => setLoading(false));
     } else {
@@ -36,11 +44,16 @@ const AuthProvider = ({ children }) => {
   // After getting access token from login
   const login = (access_token) => {
     localStorage.setItem("access_token", access_token);
-    get("login")
+    axios
+      .get(`${BASE_URL}auth/me`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      })
       .then((response) => {
         if (response) {
           setIsAuth(true);
-          setUser(response);
+          setUser(response.data);
           setInitialLogin(true);
         }
       })
@@ -48,6 +61,7 @@ const AuthProvider = ({ children }) => {
         setIsAuth(false);
         setUser(null);
         setInitialLogin(false);
+        toast.info("Your session timed out, please login Again !")
       });
   };
 
@@ -65,6 +79,8 @@ const AuthProvider = ({ children }) => {
         isAuth,
         user,
         loading,
+        login,
+        logout,
         initialLogin,
       }}
     >
