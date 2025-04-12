@@ -7,7 +7,6 @@ import AuthProvider from './context/Authentication'
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from './utils/ProtectedRoute'
 import TaskDashboard from './pages/TaskDashboard'
-import Login from './components/auth/Login'
 import DataProvider from './context/DataContext'
 
 function App() {

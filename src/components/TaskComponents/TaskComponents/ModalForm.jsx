@@ -73,7 +73,7 @@ const ModalForm = ({ editData, mode, close }) => {
           variant='h3'
           sx={{ fontSize: "1rem", marginBottom: "0.5rem", color: "#f5f5f5" }}
         >
-          Modal Form
+         Task
         </Typography>
         <Divider sx={{ backgroundColor: "rgb(14, 241, 241)", mb: 2 }} />
 
@@ -89,8 +89,8 @@ const ModalForm = ({ editData, mode, close }) => {
               variant='outlined'
               placeholder='Enter your title'
               {...register("title")}
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.title}
+              helperText={errors.title?.message}
               type='text'
               sx={{
                 input: {
@@ -126,8 +126,8 @@ const ModalForm = ({ editData, mode, close }) => {
               variant='outlined'
               placeholder='Enter your description'
               {...register("description")}
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.description}
+              helperText={errors.description?.message}
               type='text'
               sx={{
                 textArea: {
