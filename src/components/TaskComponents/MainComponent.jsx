@@ -187,7 +187,7 @@ const MainComponent = () => {
                   onDragOver={(e) => handleDragOver(e, item.id)}
                   onDrop={() => handleDrop(item.id)}
                   onDragEnd={handleDragEnd}
-                  isDragOver={dragOverId === item.id && dragOverId != draggedId}
+                  isDragOver={dragOverId === item.id}
                   isDragging={draggedId === item.id}
                   onDelete={() => handleDelete(item.id)}
                   onEdit={() => {

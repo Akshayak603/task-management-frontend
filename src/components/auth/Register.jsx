@@ -15,10 +15,12 @@ const Register = () => {
   });
   const navigate = useNavigate(); // navigation
   const { post } = useApi(BASE_URL); // Api call
+
   // Registeration Handler
   const handleRegister = async () => {
     if (registeredData.password.length < 6) {
       toast.error("Password must be greater than 6 digits.");
+      return;
     }
 
     const response = await post("auth/register", registeredData);
@@ -32,6 +34,8 @@ const Register = () => {
   };
   return (
     <Box
+    component="form"
+    onSubmit={handleRegister}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -126,7 +130,7 @@ const Register = () => {
         <Button
           variant='contained'
           size='medium'
-          onClick={handleRegister}
+          type="submit"
           sx={{ width: "5rem", backgroundColor: "rgb(36, 189, 203)" }}
         >
           Register

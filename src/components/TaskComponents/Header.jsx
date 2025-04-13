@@ -35,10 +35,7 @@ const Header = () => {
           <AccountCircleIcon titleAccess={user.email} />
           <LogoutIcon
             sx={{ cursor: "pointer" }}
-            onClick={() => {
-              logout();
-              toast.success("Logged out successfully!");
-            }}
+            onClick={()=> logout()}
           />
         </Typography>
       </Toolbar>

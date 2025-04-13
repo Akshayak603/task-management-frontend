@@ -6,6 +6,7 @@ import useApi from "../api/useApi";
 import { BASE_URL } from "../utils/constant";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -14,32 +15,7 @@ const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [initialLogin, setInitialLogin] = useState(false);
-  
-  // useEffect for checking token expiry
-  useEffect(() => {
-    const storedToken = localStorage.getItem("access_token");
-    if (storedToken) {
-      axios
-        .get(`${BASE_URL}auth/me`, {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-          },
-        })
-        .then((response) => {
-          if (response) {
-            setIsAuth(true);
-            setUser(response.data);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, []);
+  const navigate= useNavigate();
 
   // After getting access token from login
   const login = (access_token) => {
@@ -54,14 +30,13 @@ const AuthProvider = ({ children }) => {
         if (response) {
           setIsAuth(true);
           setUser(response.data);
-          setInitialLogin(true);
+          toast.success("Login Successfully.")
+          navigate("/tasks");
         }
       })
       .catch(() => {
         setIsAuth(false);
         setUser(null);
-        setInitialLogin(false);
-        toast.info("Your session timed out, please login Again !")
       });
   };
 
@@ -70,8 +45,37 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("access_token");
     setIsAuth(false);
     setUser(null);
-    setInitialLogin(false);
+    toast.info("Logged out successfully!");
   };
+
+   // useEffect for checking token expiry
+   useEffect(() => {
+    const storedToken = localStorage.getItem("access_token");
+    if (storedToken) {
+      axios
+        .get(`${BASE_URL}auth/me`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        })
+        .then((response) => {
+          if (response) {
+            setIsAuth(true);
+            setUser(response.data);
+          }
+          else{
+            toast.info("Token has expired, please login.")
+            logout();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -80,8 +84,7 @@ const AuthProvider = ({ children }) => {
         user,
         loading,
         login,
-        logout,
-        initialLogin,
+        logout
       }}
     >
       {children}

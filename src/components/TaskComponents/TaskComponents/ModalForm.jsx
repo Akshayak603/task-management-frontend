@@ -73,7 +73,7 @@ const ModalForm = ({ editData, mode, close }) => {
           variant='h3'
           sx={{ fontSize: "1rem", marginBottom: "0.5rem", color: "#f5f5f5" }}
         >
-         Task
+         {mode.charAt(0).toUpperCase()+mode.slice(1)} Task 
         </Typography>
         <Divider sx={{ backgroundColor: "rgb(14, 241, 241)", mb: 2 }} />
 

@@ -11,11 +11,15 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   // Login data
   const [loginData, setLoginData] = useState({ username: "", password: "" });
-  const { login, initialLogin } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (loginData.password.length < 6) {
+      toast.error("Password must be greater than 6 digits.");
+      return;
+    }
     try {
       const response = await axios.post(`${BASE_URL}auth/login`, loginData, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -28,16 +32,10 @@ const Login = () => {
     }
   };
 
-  // So that after login function takes place auth state is setup we run after it so that protected route can take its time
-  useEffect(() => {
-    if (initialLogin) {
-      toast.success("Login Success");
-      navigate("/tasks");
-    }
-  }, [initialLogin]);
-
   return (
     <Box
+    component="form"
+    onSubmit={handleLogin}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -101,7 +99,7 @@ const Login = () => {
         <Button
           variant='contained'
           size='medium'
-          onClick={handleLogin}
+          type="submit"
           sx={{ width: "5rem", backgroundColor: "rgb(36, 189, 203)" }}
         >
           Login
